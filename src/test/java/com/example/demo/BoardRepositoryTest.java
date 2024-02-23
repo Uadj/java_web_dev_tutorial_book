@@ -1,5 +1,7 @@
 package com.example.demo;
 
+import com.example.demo.domain.Board;
+import com.example.demo.repository.BoardRepository;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +11,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Log4j2
@@ -47,6 +48,18 @@ class BoardRepositoryTest {
     }
 
     @Test
+    public void testUpdate(){
+        Long bno = 100L;
+
+        Optional<Board> result = boardRepository.findById(bno);
+
+        Board board = result.orElseThrow();
+
+        board.change("update..title 100", "update content 100");
+
+        boardRepository.save(board);
+    }
+    @Test
     public void testDelete(){
         Long bno = 1L;
 
@@ -58,5 +71,14 @@ class BoardRepositoryTest {
         Pageable pageable = PageRequest.of(0,10, Sort.by("bno").descending());
 
         Page<Board> result = boardRepository.findAll(pageable);
+
+        log.info("total count: " + result.getTotalElements());
+        log.info("total pages: " + result.getTotalPages());
+        log.info("page number: " + result.getNumber());
+        log.info("page size: " + result.getSize());
+
+        List<Board> todoList = result.getContent();
+
+        todoList.forEach(log::info);
     }
 }
