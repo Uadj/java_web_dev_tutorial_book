@@ -2,14 +2,20 @@ package com.example.demo.service;
 
 import com.example.demo.domain.Board;
 import com.example.demo.dto.BoardDTO;
+import com.example.demo.dto.PageRequestDTO;
+import com.example.demo.dto.PageResponseDTO;
 import com.example.demo.repository.BoardRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Log4j2
@@ -53,5 +59,24 @@ public class BoardServiceImpl implements BoardService{
     public void delete(Long bno) {
         boardRepository.deleteById(bno);
     }
+
+    @Override
+    public PageResponseDTO<BoardDTO> list(PageRequestDTO pageRequestDTO) {
+            String[] types = pageRequestDTO.getTypes();
+            String keyword = pageRequestDTO.getKeyword();
+            Pageable pageable = pageRequestDTO.getPageable("bno");
+
+            Page<Board> result = boardRepository.searchAll(types, keyword, pageable);
+
+            List<BoardDTO> dtoList = result.getContent().stream()
+                    .map(board -> modelMapper.map(board, BoardDTO.class))
+                    .collect(Collectors.toList());
+
+            return PageResponseDTO.<BoardDTO>withAll()
+                    .pageRequestDTO(pageRequestDTO)
+                    .dtoList(dtoList)
+                    .total((int)result.getTotalElements())
+                    .build();
+        }
 
 }

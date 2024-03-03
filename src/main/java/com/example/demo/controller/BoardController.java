@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.BoardDTO;
 import com.example.demo.dto.PageRequestDTO;
+import com.example.demo.dto.PageResponseDTO;
 import com.example.demo.service.BoardService;
 import jakarta.validation.Valid;
 import lombok.extern.log4j.Log4j2;
@@ -22,6 +23,15 @@ public class BoardController {
 
     @Autowired
     private BoardService boardService;
+
+    @GetMapping("/list")
+    public void list(PageRequestDTO pageRequestDTO, Model model){
+        PageResponseDTO<BoardDTO> responseDTO = boardService.list(pageRequestDTO);
+
+        log.info(responseDTO);
+
+        model.addAttribute("responseDTO", responseDTO);
+    }
 
     @PreAuthorize("hasRole('USER')")
     @GetMapping("/register")

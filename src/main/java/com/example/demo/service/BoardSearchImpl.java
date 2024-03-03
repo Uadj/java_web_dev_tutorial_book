@@ -2,6 +2,8 @@ package com.example.demo.service;
 
 import com.example.demo.domain.Board;
 import com.example.demo.domain.QBoard;
+import com.example.demo.dto.BoardDTO;
+import com.example.demo.dto.PageRequestDTO;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.JPQLQuery;
 import org.springframework.data.domain.Page;
@@ -16,8 +18,6 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
     public BoardSearchImpl(){
         super(Board.class);
     }
-
-
     @Override
     public Page<Board> search1(Pageable pageable) {
 
