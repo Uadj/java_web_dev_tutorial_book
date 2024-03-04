@@ -26,7 +26,12 @@ public class SecurityConfig {
 
         http.formLogin().loginPage("/member/login");
 
-        http.csrf().disable();
+        http.authorizeRequests()
+                .requestMatchers("/**").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .csrf().disable()
+                .headers().frameOptions().sameOrigin();; // Permit all URLs;
 
         return http.build();
     }

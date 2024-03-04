@@ -33,10 +33,9 @@ public class BoardController {
         model.addAttribute("responseDTO", responseDTO);
     }
 
-    @PreAuthorize("hasRole('USER')")
+   @PreAuthorize("hasRole('USER')")
     @GetMapping("/register")
     public void registerGET(){
-
     }
 
     @GetMapping("/read")
