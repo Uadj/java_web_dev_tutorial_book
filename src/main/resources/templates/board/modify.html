@@ -20,11 +20,15 @@
                     <form th:action="@{/board/modify}" method="post" id="f1">
                         <div class="input-group mb-3">
                             <span class="input-group-text">Bno</span>
-                            <input type="text" class="form-control" th:value="${dto.bno}" name="bno" readonly>
+                            <label>
+                                <input type="text" class="form-control" th:value="${dto.bno}" name="bno" readonly>
+                            </label>
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text">Title</span>
-                            <input type="text" class="form-control" name="title" th:value="${dto.title}">
+                            <label>
+                                <input type="text" class="form-control" name="title" th:value="${dto.title}">
+                            </label>
                         </div>
 
                         <div class="input-group mb-3">
@@ -59,5 +63,47 @@
 </div>
 
 <script layout:fragment="script" th:inline="javascript">
+
+    const errors = [[${erorrs}]]
+    console.log(errors)
+
+    let errorMsg = ''
+
+    if(errors){
+        for(let i=0; i<errors.length;i++){
+            errorMsg += `${errors[i].field}은(는) ${errors[i].code} \n`
+        }
+        history.replaceState({}, null, null)
+        alert(errorMsg)
+    }
+
+    const link = [[${pageRequestDTO.getLink()}]]
+    const formObj = document.querySelector("#f1")
+
+    document.querySelector(".modBtn").addEventListener("click" , function(e){
+        e.preventDefault()
+        e.stopPropagation()
+
+        formObj.action = `/board/modify?${link}`
+        formObj.method = `post`
+        formObj.submit()
+    }, false)
+
+    document.querySelector(".removeBtn").addEventListener("click", function (e){
+        e.preventDefault()
+        e.stopPropagation()
+
+        formObj.action = `/board/remove`
+        formObj.method = 'post'
+        formObj.submit()
+    }, false)
+
+    document.querySelector(".listen").addEventListener("click", function (e){
+        e.preventDefault()
+        e.stopPropagation()
+
+        formObj.reset()
+        self.location = `/board/list?${link}`
+    }, false)
 </script>
 </html>
