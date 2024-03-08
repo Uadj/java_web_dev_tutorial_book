@@ -26,12 +26,10 @@ public class SecurityConfig {
 
         http.formLogin().loginPage("/member/login");
 
-        http.authorizeRequests()
+        http.authorizeHttpRequests((authorize) -> authorize
                 .requestMatchers("/**").permitAll()
                 .anyRequest().authenticated()
-                .and()
-                .csrf().disable()
-                .headers().frameOptions().sameOrigin();; // Permit all URLs;
+        );
 
         return http.build();
     }
