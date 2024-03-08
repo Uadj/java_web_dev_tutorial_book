@@ -5,6 +5,7 @@
       layout:decorate="~{layout/basic.html}">
 <head>
     <title>Board Register</title>
+    <link th:href="@{/css/styles.css}" rel="stylesheet"/>
 </head>
 <div layout:fragment="content">
     <div class="row mt-3">
@@ -15,7 +16,7 @@
                 </div>
                 <div class="card-body">
                     <form action="/board/register" method="post">
-                        <div clas="input-group mb-3">
+                        <div class="input-group mb-3">
                             <span class="input-group-text">Title</span>
                             <input type="text" name="title" class="form-control" placeholder="Title">
                         </div>
@@ -41,16 +42,10 @@
     </div>
 </div>
 <script layout:fragment="script" th:inline="javascript">
-    const errors = [[$(errors)]]
-    console.log(errors)
+    const result = [[${result}]]
 
-    let errorMsg = ''
-
-    if(errors){
-        for(let i=0; i< errors.length; i++){
-            errorMsg += `${errors[i].field}은(는) ${errors[i].code} \n`
-        }
-        alert(errorMsg)
+    if(result){
+        alert(result)
     }
 </script>
 </html>

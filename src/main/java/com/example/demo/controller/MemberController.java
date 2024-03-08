@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @Log4j2
 @RequestMapping("/member")
+@RequiredArgsConstructor
 public class MemberController {
     @GetMapping("/login")
     public void loginGET(){

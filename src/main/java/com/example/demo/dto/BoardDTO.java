@@ -14,14 +14,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class BoardDTO {
 
-    @NotEmpty
-    @Size(min=3, max=100)
     private Long bno;
 
-    @NotEmpty
     private String title;
 
-    @NotEmpty
     private String content;
 
     private String writer;

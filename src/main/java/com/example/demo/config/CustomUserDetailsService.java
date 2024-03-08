@@ -14,7 +14,8 @@ import org.springframework.stereotype.Service;
 @Log4j2
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
-    private PasswordEncoder passwordEncoder;
+
+    private final PasswordEncoder passwordEncoder;
     public CustomUserDetailsService(){
         this.passwordEncoder = new BCryptPasswordEncoder();
     }
@@ -22,8 +23,8 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         log.info("loadUserByUsername:" + username);
 
-        UserDetails userDetails = User.builder().username("user1")
-                .password("1111")
+        UserDetails userDetails = User.builder().username("user")
+                .password(passwordEncoder.encode("1111"))
                 .authorities("ROLE_USER")
                 .build();
         return userDetails;
