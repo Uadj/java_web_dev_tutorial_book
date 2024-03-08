@@ -15,5 +15,6 @@ public class MemberController {
     public void loginGET(){
         log.info("login get....");
 
+
     }
 }
